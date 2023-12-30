@@ -1,3 +1,4 @@
 # ein-kleiner-test
-Test für wissenschaftliches Arbeiten
-testest test pc 2
+Testprojekt für Wissenschaftliches Arbeiten.
+Autor: Neo Hong
+Kontakt: neo.hong@tu-dortmund.de
