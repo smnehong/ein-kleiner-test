@@ -15,8 +15,8 @@ cat("Quartilsdifferenz: ", q[2] - q[1], "\n")
 cat("Modus: ", desc.mode(favorites$Alter), "\n")
 cat("Spannweite: ", max(favorites$Alter) - min(favorites$Alter), "\n")
 i <- seq_along(favorites$Alter)
-sk1 <- 1 / (length(favorites$Alter) - 1) * sum((favorites$Alter[i] - mean)^3)
-# TODO fix
+sk1 <- (1 / (length(favorites$Alter) - 1) * sum((favorites$Alter[i] - mean)^3)
+) / sd^3
 cat("Schiefekoeffizent 1: ", sk1, "\n")
 cat("Variationskoeffizent: ", sd / mean, "\n")
 
@@ -30,100 +30,57 @@ cat("Phi-Streuungsmaß: ", desc.phi(favorites$Lieblingstier), "\n")
 
 cat("\nKontingenz: ", "\n")
 print(table(favorites$Lieblingsfarbe, favorites$Lieblingstier),
-    zero.print = "."
+  zero.print = "."
 )
 cat("X^2-Koeffizient: ", desc.chisq(
-    favorites$Lieblingsfarbe,
-    favorites$Lieblingstier
+  favorites$Lieblingsfarbe,
+  favorites$Lieblingstier
 ), "\n")
 cat("Cramérs Kontingenzindex: ", desc.cramer(
-    favorites$Lieblingsfarbe,
-    favorites$Lieblingstier
+  favorites$Lieblingsfarbe,
+  favorites$Lieblingstier
 ), "\n")
 
-# ggplot(favorites, aes(Alter)) +
-#     geom_histogram(aes(y = after_stat(density)), breaks = c(
-#         17, 18, 19, 20, 22,
-#         24, 26, 30, 36
-#     )) +
-#     geom_vline(aes(xintercept = mean(Alter)),
-#         linetype = "dashed",
-#         linewidth = 1
-#     ) +
-#     geom_vline(aes(xintercept = median(Alter)),
-#         colour = "darkgray",
-#         linetype = "dashed", linewidth = 1
-#     ) +
-#     geom_vline(aes(xintercept = Mode(Alter)),
-#         color = "grey",
-#         linetype = "dashed", linewidth = 1
-#     ) +
-#     labs(x = "Alter", y = "empirische Dichte")
 draw.histogram(favorites,
-    factor = favorites$Alter, label = "Alter",
-    breaks = c(17, 18, 19, 20, 22, 24, 26, 30, 36)
+  factor = favorites$Alter, label = "Alter",
+  breaks = c(17, 18, 19, 20, 22, 24, 26, 30, 36)
 )
 
-# ggplot(favorites, aes(Lieblingstier_alle)) +
-#     geom_bar() +
-#     labs(x = "Lieblingstier", y = "absolute Häufigkeit")
 draw.barchart(favorites,
-    factor = favorites$Lieblingstier,
-    label = "Lieblingstier"
+  factor = favorites$Lieblingstier,
+  label = "Lieblingstier"
 )
 
-# ggplot(favorites, aes(Lieblingsfarbe)) +
-#     geom_bar() +
-#     labs(x = "Lieblingsfarbe", y = "absolute Häufigkeit")
 draw.barchart(favorites,
-    factor = favorites$Lieblingsfarbe,
-    label = "Lieblingsfarbe"
+  factor = favorites$Lieblingsfarbe,
+  label = "Lieblingsfarbe"
 )
 
-# ggplot(favorites, aes(Lieblingsfarbe, Alter)) +
-#     stat_boxplot(geom = "errorbar", width = 0.75) +
-#     coord_flip() +
-#     geom_boxplot() +
-#     labs(x = "Lieblingsfarbe", y = "Alter")
 draw.boxplots(favorites,
-    factor_numerical = favorites$Alter,
-    factor_categorial = favorites$Lieblingsfarbe,
-    label_numerical = "Alter",
-    label_categorial = "Lieblingsfarbe"
+  factor_numerical = favorites$Alter,
+  factor_categorial = favorites$Lieblingsfarbe,
+  label_numerical = "Alter",
+  label_categorial = "Lieblingsfarbe"
 )
 
 library(forcats)
 
 favorites$Lieblingstier <- fct_other(favorites$Lieblingstier,
-    keep = c("Hund", "Katze"), other_level = "Andere"
+  keep = c("Hund", "Katze"), other_level = "Andere"
 )
 
-# ggplot(favorites, aes(Lieblingstier, Alter)) +
-#     stat_boxplot(geom = "errorbar", width = 0.75) +
-#     coord_flip() +
-#     geom_boxplot() +
-#     labs(x = "Lieblingstier", y = "Alter")
 draw.boxplots(favorites,
-    factor_numerical = favorites$Alter,
-    factor_categorial = favorites$Lieblingstier,
-    label_numerical = "Alter",
-    label_categorial = "Lieblingstier"
+  factor_numerical = favorites$Alter,
+  factor_categorial = favorites$Lieblingstier,
+  label_numerical = "Alter",
+  label_categorial = "Lieblingstier"
 )
 
-# ggplot(favorites) +
-#     geom_mosaic(aes(product(Lieblingsfarbe, Lieblingstier),
-#         fill = Lieblingsfarbe
-#     )) +
-#     scale_fill_manual(values = c(
-#         "lightblue3", "khaki", "palegreen3",
-#         "palevioletred"
-#     )) +
-#     labs(x = "Lieblingstier", y = "Lieblingsfarbe")
 draw.mosaic(favorites,
-    mapping = aes(product(Lieblingsfarbe, Lieblingstier),
-        fill = Lieblingsfarbe
-    ),
-    label_x = "Lieblingstier",
-    label_y = "Lieblingsfarbe",
-    manual_colors = c("lightblue3", "khaki", "palegreen3", "palevioletred")
+  mapping = aes(product(Lieblingsfarbe, Lieblingstier),
+    fill = Lieblingsfarbe
+  ),
+  label_x = "Lieblingstier",
+  label_y = "Lieblingsfarbe",
+  manual_colors = c("lightblue3", "khaki", "palegreen3", "palevioletred")
 )
